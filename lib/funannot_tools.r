@@ -17,7 +17,7 @@ funanno_from_all <- function(annot_all, all_genes){
 
     GO_final <- data.frame(gene=GO$gene, 
                            annotation="go_function", 
-                           value = str_match(GO$value, "\\|(\\d+)\\|")[,2])
+                           value = as.character(str_match(GO$value, "\\|(\\d+)\\|")[,2]))
 
     very_long <- rbind.data.frame(by_type[["name"]],
                                   by_type[["product"]],
@@ -29,7 +29,7 @@ funanno_from_all <- function(annot_all, all_genes){
     M <- merge(data.frame(gene=all_genes), agg, all.x=TRUE)
     res <- spread(M, annotation, value, fill="")
     #res[,c("gene", "product", "name", "antiSMASH", "BUSCO", "CAZy", "effectorP", "go_function", "InterPro", "MEROPS", "PFAM", "SMCOG"),]
-    res[,c("gene", "product", "name", "antiSMASH", "BUSCO", "CAZy", "effectorP", "go_function", "InterPro", "MEROPS", "PFAM", "SECRETED", "SMCOG"),]
+    res[,c("gene", "product", "name", "antiSMASH", "BUSCO", "CAZy", "EffectorP", "go_function", "InterPro", "MEROPS", "PFAM", "SECRETED", "SMCOG"),]
 
 }
        # final_DB <- aggregate(value ~ gene + annotation, FUN=paste0, data=dbs, collapse=":")

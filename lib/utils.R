@@ -177,3 +177,25 @@ gene_centres <- function(bed, gene_name="gene", chrom=TRUE){
 }
 
 
+
+.make_lab <- function(PC, p_exp){
+    paste0("PC", PC, " (", round(p_exp[PC]*100,2),"%)")
+}
+
+gg_ordination <- function(PCA_res, PCs=c(1,2)){    
+    prop_explained <- summary(PCA_res)[["importance"]][2,]
+    to_plot <- data.frame(PCA_res$x[,PCs], lab=rownames(PCA_res$x))
+    cols <- paste0("PC", PCs)
+    ggplot(to_plot, aes_string(x=cols[1], y=cols[2], label="lab")) +
+        geom_point() +
+        ggrepel::geom_label_repel() + 
+        coord_equal() + 
+        geom_hline(yintercept=0) + 
+        geom_vline(xintercept=0) +
+        scale_x_continuous(.make_lab(PCs[1],prop_explained)) +
+        scale_y_continuous(.make_lab(PCs[2],prop_explained))
+}
+
+
+
+
